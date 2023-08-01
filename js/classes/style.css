@@ -1,0 +1,30 @@
+.bodyModal {
+    background-color: rgba(0, 0, 0, 0.385);
+}
+
+.modal {
+    position: absolute;
+    top: 120px;
+    left: 400px;
+    width: 350px;
+    height: 300px;
+    border: 1px solid black;
+    padding: 15px;
+    background-color: white;
+}
+
+.modalClose {
+    display: none;
+}
+
+.modalOpen {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.estrutura {
+    width: 250px;
+    height: 250px;
+    border: 1px solid black;
+}

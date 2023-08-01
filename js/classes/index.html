@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manipulação de classes e estilos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <button id="btnOpen" onclick="openModal()" class="btnOpenModal">
+        Clique aqui para abrir o modal
+    </button>
+
+    <div id="modal" class="modal modalClose">
+        <p class="modal-title">Modal</p>
+        <button onclick="closeModal()" class="btnCloseModal">
+            Clique aqui para fechar o modal
+        </button>
+    </div>
+    <div>
+        <button onclick="bgBlue()">Azul</button>
+        <button onclick="bgYellow()">Amarelo</button>
+        <button onclick="bgBlack()">Preto</button>
+        <div id="fundoCor" class="estrutura">
+
+        </div>
+    </div>
+    <script src="./index.js"></script>
+</body>
+
+</html>
