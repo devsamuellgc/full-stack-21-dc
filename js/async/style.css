@@ -1,0 +1,20 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.table-main {
+    width: 100%;
+    border: 1px solid black;
+    min-height: 100vh;
+    padding: 15px;
+}
+
+.body tr td {
+    text-align: center;
+}
+
+.body tr td img {
+    border-radius: 100%;
+}
