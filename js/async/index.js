@@ -50,7 +50,11 @@ const btnAdvice = document.getElementById('btn-joke');
 async function newAdvice() {
     const response = await fetch('https://api.adviceslip.com/advice');
     const cons = await response.json();
-    conselho.innerText = cons.slip.advice;
+    return cons.slip.advice;
 }
 
-btnAdvice.addEventListener('click', newAdvice);
+function renderAdvice() {
+    conselho.innerText = newAdvice();
+}
+
+btnAdvice.addEventListener('click', renderAdvice);
