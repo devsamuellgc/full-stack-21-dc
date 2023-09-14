@@ -21,6 +21,7 @@ const cards = [
 
 export default function Features() {
   const [data, setData] = useState(cards);
+  const [name, setName] = useState("");
 
   const card = {
     title: "REALTIME DASHBOARD COMING SOON",
@@ -32,9 +33,21 @@ export default function Features() {
     setData([...data, card]);
   }
 
+  function changeName(e) {
+    setName(e.target.value);
+  }
+
   return (
     <section className="flex items-center justify-between gap-12">
       <h2>Key features</h2>
+      <p>{name}</p>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => {
+          changeName(e);
+        }}
+      />
       <Cards data={data} />
       <button onClick={addCard}>Adicionar</button>
     </section>
