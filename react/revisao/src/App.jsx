@@ -1,8 +1,9 @@
-import Header from "./components/Header";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes";
 export default function App() {
   return (
     <>
-      <Header idade={2} nome="Digital College" cidade="Fortaleza" />
+      <RouterProvider router={router} />
     </>
   );
 }
