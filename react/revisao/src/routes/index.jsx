@@ -1,5 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
+import NaoEcontrada from "../pages/NaoEncontrada";
+import SobreNos from "../pages/SobreNos";
+import FaleConosco from "../pages/FaleConosco";
 
 export const router = createBrowserRouter([
   {
@@ -8,12 +11,16 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/fale-conosco",
-        element: <h2>Página filha do caminho "/"</h2>,
+        element: <FaleConosco />,
       },
       {
         path: "/sobre",
-        element: <h2>Página sobre nós</h2>,
+        element: <SobreNos />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <NaoEcontrada />,
   },
 ]);

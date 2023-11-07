@@ -1,4 +1,6 @@
-export default function Header({ nome, idade, cidade }) {
+import { Link } from "react-router-dom";
+
+export default function Header({ nome }) {
   return (
     <nav
       className="
@@ -11,12 +13,16 @@ export default function Header({ nome, idade, cidade }) {
             text-white"
     >
       <div>
-        Nome: {nome} - Idade: {idade} - Cidade: {cidade}
+        <Link to="/">{nome}</Link>
       </div>
       <div>
         <ul className="flex gap-4 items-center">
-          <li>Fale conosco</li>
-          <li>Sobre nós</li>
+          <li>
+            <Link to="/fale-conosco">Fale conosco</Link>
+          </li>
+          <li>
+            <Link to="/sobre">Sobre nós</Link>
+          </li>
         </ul>
       </div>
     </nav>
