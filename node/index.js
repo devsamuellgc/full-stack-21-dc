@@ -3,6 +3,8 @@ import express from "express";
 const app = express();
 const port = 3001;
 
+app.use(express.json());
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
@@ -58,6 +60,34 @@ const users = [
   },
 ];
 
+const lojas = [
+  {
+    id: "1",
+    nome: "Loja 1",
+    faturamento: 1500,
+  },
+  {
+    id: "2",
+    nome: "Loja 2",
+    faturamento: 3000,
+  },
+  {
+    id: "3",
+    nome: "Loja 3",
+    faturamento: 10000,
+  },
+  {
+    id: "4",
+    nome: "Loja 4",
+    faturamento: 800,
+  },
+  {
+    id: "5",
+    nome: "Loja 5",
+    faturamento: 100000,
+  },
+];
+
 app.get("/users", (req, res) => {
   res.status(200).json(users);
 });
@@ -83,11 +113,42 @@ app.get("/produto/:id", (req, res) => {
 
 app.get("/produtos/total-estoque", (req, res) => {
   const estoqueProdutos = produtos.map((produto) => {
-    return `${produto.nome} - Estoque em R$ ${
-      produto.quantidade * produto.valorUnit
-    }`;
+    return {
+      [produto.nome]: produto.quantidade * produto.valorUnit,
+    };
   });
   res.json(estoqueProdutos);
+});
+
+app.post("/produto", (req, res) => {
+  produtos.push(req.body);
+  res.json(produtos);
+});
+
+// Lojas
+
+app.get("/lojas", (req, res) => {
+  res.json(lojas);
+});
+
+app.get("/loja/:id", (req, res) => {
+  const loja = lojas.find((loja) => loja.id === req.params.id);
+  res.json(loja);
+});
+
+app.get("/lojas/faturamento", (req, res) => {
+  const faturamentoPorLojas = [];
+  for (const loja of lojas) {
+    faturamentoPorLojas.push({
+      [loja.nome]: loja.faturamento,
+    });
+  }
+  res.json(faturamentoPorLojas);
+});
+
+app.post("/loja", (req, res) => {
+  lojas.push(req.body);
+  res.json(lojas);
 });
 
 app.listen(port, () => {
@@ -106,10 +167,6 @@ app.listen(port, () => {
  * 1º Um endpoint que mostre todos os produtos
  * 2º Um endpoint que mostre um produto específico
  * 3º Um endpoint que mostre o valor total do estoque por produto
- * app.get("/users", (req, res) => {
- *  res.send(users);
- * });
- * app.get("/user/:id", (req, res) => {
- *  const user = users.find((user) => user.id === req.params.id);
- * });
+ * 4º Um endpoint que cadastre um novo produto
+ *
  */
