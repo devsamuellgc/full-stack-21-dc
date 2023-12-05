@@ -36,12 +36,22 @@ const produtos = [
 ];
 
 router.get("/produtos", (req, res) => {
-  res.json(produtos);
+  res.status(200).json({
+    data: produtos,
+    mensagem: "Produtos encontrados com sucesso!",
+    pagination: {
+      page: 1,
+      perPage: 10,
+    },
+  });
 });
 
 router.get("/produto/:id", (req, res) => {
   const produto = produtos.find((produto) => produto.id === req.params.id);
-  res.json(produto);
+  res.status(200).json({
+    data: produto,
+    mensagem: "Produto encontrado com sucesso!",
+  });
 });
 
 router.get("/produtos/total-estoque", (req, res) => {
@@ -50,26 +60,26 @@ router.get("/produtos/total-estoque", (req, res) => {
       [produto.nome]: produto.quantidade * produto.valorUnit,
     };
   });
-  res.json(estoqueProdutos);
+  res.status(200).json(estoqueProdutos);
 });
 
 router.post("/produto", (req, res) => {
   produtos.push(req.body);
-  res.json(produtos);
+  res.status(201).json(produtos);
 });
 
 router.delete("/produto/:id", (req, res) => {
-  produtos.splice(req.params.id - 1, 1);
-  res.json(produtos);
+  const produtoDeletado = produtos.splice(req.params.id - 1, 1);
+  res.status(200).json(produtoDeletado);
 });
 
 router.patch("/produto/:id", (req, res) => {
   const index = req.params.id - 1;
-  produtos.splice(index, 1, {
+  const produtoAlterado = produtos.splice(index, 1, {
     ...produtos[index],
     ...req.body,
   });
-  res.json(produtos);
+  res.status(200).json(produtoAlterado);
 });
 
 export default router;

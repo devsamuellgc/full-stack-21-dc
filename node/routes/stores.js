@@ -31,12 +31,19 @@ const lojas = [
 ];
 
 router.get("/lojas", (req, res) => {
-  res.json(lojas);
+  res.status(200).json({
+    data: lojas,
+    mensagem: "Lojas encontradas com sucesso!",
+    pagination: {
+      page: 1,
+      perPage: 10,
+    },
+  });
 });
 
 router.get("/loja/:id", (req, res) => {
   const loja = lojas.find((loja) => loja.id === req.params.id);
-  res.json(loja);
+  res.status(200).json(loja);
 });
 
 router.get("/lojas/faturamento", (req, res) => {
@@ -46,17 +53,37 @@ router.get("/lojas/faturamento", (req, res) => {
       [loja.nome]: loja.faturamento,
     });
   }
-  res.json(faturamentoPorLojas);
+  res.status(200).json(faturamentoPorLojas);
 });
 
 router.post("/loja", (req, res) => {
+  const autenticacao = true;
+  const loja = lojas.find((loja) => loja.id === req.body.id);
+
+  if (!autenticacao) {
+    return res.status(401).json({ message: "Usuário não autenticado" });
+  }
+
+  if (!req.body.id) {
+    return res.status(400).json({ mensagem: "Id não identificado!" });
+  }
+
+  if (loja) {
+    return res.status(400).json({ mensagem: "ID já cadastrado!" });
+  }
+
+  if (!req.body.nome) {
+    return res.status(400).json({ mensagem: "Nome da loja é obrigatório!" });
+  }
+
   lojas.push(req.body);
-  res.json(lojas);
+  return res.status(201).json(lojas);
 });
 
 router.delete("/loja/:id", (req, res) => {
-  lojas.splice(req.params.id - 1, 1);
-  res.json(lojas);
+  const produtoDeletado = lojas.splice(req.params.id - 1, 1);
+  console.log(produtoDeletado);
+  res.status(200).json(produtoDeletado[0].id);
 });
 
 router.patch("/loja/:id", (req, res) => {
@@ -65,7 +92,7 @@ router.patch("/loja/:id", (req, res) => {
     ...lojas[index],
     ...req.body,
   });
-  res.json(lojas);
+  res.status(200).json(lojas);
 });
 
 export default router;
