@@ -8,6 +8,11 @@ const port = 3001;
 
 app.use(express.json());
 
+export const myLogger = (req, res, next) => {
+  console.log("LOGGED");
+  next();
+};
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });

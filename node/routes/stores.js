@@ -1,6 +1,12 @@
 import express from "express";
 
 const router = express.Router();
+const permissao = "admin";
+const autenticacao = true;
+
+/**
+ * Validar todos os endpoints se o usuário está logado e com a permissão de admin
+ */
 
 const lojas = [
   {
@@ -31,7 +37,17 @@ const lojas = [
 ];
 
 router.get("/lojas", (req, res) => {
-  res.status(200).json({
+  if (!autenticacao) {
+    return res.status(401).json({ message: "Usuário não autenticado" });
+  }
+
+  if (permissao !== "admin") {
+    return res
+      .status(403)
+      .json({ message: "Usuário não possui autorização suficiente!" });
+  }
+
+  return res.status(200).json({
     data: lojas,
     mensagem: "Lojas encontradas com sucesso!",
     pagination: {
@@ -42,31 +58,66 @@ router.get("/lojas", (req, res) => {
 });
 
 router.get("/loja/:id", (req, res) => {
+  if (!autenticacao) {
+    return res.status(401).json({ message: "Usuário não autenticado" });
+  }
+
+  if (permissao !== "admin") {
+    return res
+      .status(403)
+      .json({ message: "Usuário não possui autorização suficiente!" });
+  }
+
   const loja = lojas.find((loja) => loja.id === req.params.id);
-  res.status(200).json(loja);
+
+  if (!loja) {
+    return res.status(400).json({ message: "Loja não encontrada!" });
+  }
+
+  return res.status(200).json(loja);
 });
 
 router.get("/lojas/faturamento", (req, res) => {
+  if (!autenticacao) {
+    return res.status(401).json({ message: "Usuário não autenticado" });
+  }
+
+  if (permissao !== "admin") {
+    return res
+      .status(403)
+      .json({ message: "Usuário não possui autorização suficiente!" });
+  }
+
+  if (lojas.length < 1) {
+    return res.status(200).json({ message: "Não há lojas cadastradas!" });
+  }
+
   const faturamentoPorLojas = [];
   for (const loja of lojas) {
     faturamentoPorLojas.push({
       [loja.nome]: loja.faturamento,
     });
   }
-  res.status(200).json(faturamentoPorLojas);
+
+  return res.status(200).json(faturamentoPorLojas);
 });
 
 router.post("/loja", (req, res) => {
-  const autenticacao = true;
-  const loja = lojas.find((loja) => loja.id === req.body.id);
-
   if (!autenticacao) {
     return res.status(401).json({ message: "Usuário não autenticado" });
+  }
+
+  if (permissao !== "admin") {
+    return res
+      .status(403)
+      .json({ message: "Usuário não possui autorização suficiente!" });
   }
 
   if (!req.body.id) {
     return res.status(400).json({ mensagem: "Id não identificado!" });
   }
+
+  const loja = lojas.find((loja) => loja.id === req.body.id);
 
   if (loja) {
     return res.status(400).json({ mensagem: "ID já cadastrado!" });
@@ -76,23 +127,72 @@ router.post("/loja", (req, res) => {
     return res.status(400).json({ mensagem: "Nome da loja é obrigatório!" });
   }
 
-  lojas.push(req.body);
+  if (typeof req.body.faturamento === "string") {
+    return res
+      .status(400)
+      .json({ mensagem: "O faturamento precisa ser número!" });
+  }
+
+  let lojaPropriedades = req.body;
+
+  if (!req.body.faturamento) {
+    lojaPropriedades = {
+      ...req.body,
+      faturamento: 0,
+    };
+  }
+
+  lojas.push(lojaPropriedades);
+
   return res.status(201).json(lojas);
 });
 
 router.delete("/loja/:id", (req, res) => {
+  if (!autenticacao) {
+    return res.status(401).json({ message: "Usuário não autenticado" });
+  }
+
+  if (permissao !== "admin") {
+    return res
+      .status(403)
+      .json({ message: "Usuário não possui autorização suficiente!" });
+  }
+
+  const loja = lojas.find((loja) => loja.id === req.body.id);
+
+  if (!loja) {
+    return res.status(400).json({ mensagem: "Loja não existe!" });
+  }
+
   const produtoDeletado = lojas.splice(req.params.id - 1, 1);
-  console.log(produtoDeletado);
-  res.status(200).json(produtoDeletado[0].id);
+
+  return res.status(200).json(produtoDeletado[0].id);
 });
 
 router.patch("/loja/:id", (req, res) => {
+  if (!autenticacao) {
+    return res.status(401).json({ message: "Usuário não autenticado" });
+  }
+
+  if (permissao !== "admin") {
+    return res
+      .status(403)
+      .json({ message: "Usuário não possui autorização suficiente!" });
+  }
+
+  const loja = lojas.find((loja) => loja.id === req.body.id);
+
+  if (!loja) {
+    return res.status(400).json({ mensagem: "Loja não existe!" });
+  }
+
   const index = req.params.id - 1;
   lojas.splice(index, 1, {
     ...lojas[index],
     ...req.body,
   });
-  res.status(200).json(lojas);
+
+  return res.status(200).json(lojas);
 });
 
 export default router;

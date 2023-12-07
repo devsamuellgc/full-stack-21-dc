@@ -1,6 +1,12 @@
 import express from "express";
 
 const router = express.Router();
+const permissao = "vendedor";
+const autenticacao = true;
+
+/**
+ * Validar todos os endpoints se estão logados e com a permissão de vendedor
+ */
 
 const produtos = [
   {
