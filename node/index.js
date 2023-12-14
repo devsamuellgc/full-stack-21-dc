@@ -2,16 +2,12 @@ import express from "express";
 import userRoutes from "./routes/users.js";
 import storesRoutes from "./routes/stores.js";
 import productsRoutes from "./routes/products.js";
+import receivablesRoutes from "./routes/receivables.js";
 
 const app = express();
 const port = 3001;
 
 app.use(express.json());
-
-export const myLogger = (req, res, next) => {
-  console.log("LOGGED");
-  next();
-};
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -20,28 +16,15 @@ app.get("/", (req, res) => {
 // Users
 app.use("/", userRoutes);
 
-// Produtos
+// Lojas
 app.use("/", storesRoutes);
 
-// Lojas
+// Produtos
 app.use("/", productsRoutes);
+
+// Contas a receber
+app.use("/", receivablesRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
-
-/**
- * Array de objetos
- * -> 5 produtos
- *  {
- *    id: "1",
- *    nome: "Nome do produto",
- *    quantidade: 10,
- *    valorUnit: 150,
- *  }
- * 1º Um endpoint que mostre todos os produtos
- * 2º Um endpoint que mostre um produto específico
- * 3º Um endpoint que mostre o valor total do estoque por produto
- * 4º Um endpoint que cadastre um novo produto
- *
- */
