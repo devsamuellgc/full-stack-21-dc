@@ -7,3 +7,12 @@ const createUser = (newUser) => userRepository.createUser(newUser);
 const deletedUser = (userId) => userRepository.deletedUser(userId);
 const editUser = (userId, updatedUser) =>
   userRepository.editUser({ id: userId, ...updatedUser });
+
+export {
+  getAllUsers,
+  getUserById,
+  getUserByEmail,
+  createUser,
+  deletedUser,
+  editUser,
+};

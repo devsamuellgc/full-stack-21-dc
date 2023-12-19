@@ -1,4 +1,15 @@
-const users = [];
+import { v4 as uuidv4 } from "uuid";
+
+const users = [
+  {
+    id: uuidv4(), // gerar na hora da criação e único
+    fullname: "Samuel Carneiro", // obrigatório
+    birthdate: new Date(),
+    email: "email@email.com", // obrigatorio e único
+    phone: "85999999999",
+    cpf: "00000000000", // cpf obrigatorio, 11 caracteres e único
+  },
+];
 
 const getAllUsers = () => users;
 
