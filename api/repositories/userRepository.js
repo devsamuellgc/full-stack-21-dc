@@ -18,6 +18,8 @@ const getUserById = (userId) => users.find((user) => user.id === userId);
 const getUserByEmail = (userEmail) =>
   users.find((user) => user.email === userEmail);
 
+const getUserByCpf = (userCpf) => users.find((user) => user.cpf === userCpf);
+
 const createUser = (newUser) => {
   users.push(newUser);
   return newUser;
@@ -40,6 +42,7 @@ export default {
   createUser,
   removeUser,
   getUserById,
+  getUserByCpf,
   getAllUsers,
   getUserByEmail,
 };
