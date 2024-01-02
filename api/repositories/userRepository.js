@@ -2,12 +2,12 @@ import { v4 as uuidv4 } from "uuid";
 
 const users = [
   {
-    id: uuidv4(), // gerar na hora da criação e único
-    fullname: "Samuel Carneiro", // obrigatório
+    id: uuidv4(),
+    fullname: "Samuel Carneiro",
     birthdate: new Date(),
-    email: "email@email.com", // obrigatorio e único
+    email: "email@email.com",
     phone: "85999999999",
-    cpf: "00000000000", // cpf obrigatorio, 11 caracteres e único
+    cpf: "00000000000",
   },
 ];
 
@@ -31,7 +31,7 @@ const editUser = (updatedUser) => {
   return updatedUser;
 };
 
-const removeUser = (userId) => {
+const deletedUser = (userId) => {
   const index = users.findIndex((user) => user.id === userId);
   const deletedUser = users.splice(index, 1);
   return deletedUser;
@@ -40,7 +40,7 @@ const removeUser = (userId) => {
 export default {
   editUser,
   createUser,
-  removeUser,
+  deletedUser,
   getUserById,
   getUserByCpf,
   getAllUsers,

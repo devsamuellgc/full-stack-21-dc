@@ -4,10 +4,11 @@ import {
   getUserByEmail,
   getUserByCpf,
   createUser,
+  editUser,
 } from "../services/usersService.js";
 import { v4 as uuidv4 } from "uuid";
 
-const listAllProducts = (req, res) => {
+const listAllUsers = (req, res) => {
   const users = getAllUsers();
 
   if (users.length === 0) {
@@ -76,4 +77,58 @@ const createANewUser = (req, res) => {
   }
 };
 
-export { listAllProducts, createANewUser };
+const listAUser = (req, res) => {
+  const userId = req.params.id;
+
+  if (!userId) {
+    return res.status(400).json({ mensagem: "O id é obrigatório" });
+  }
+
+  const user = getUserById(userId);
+
+  if (user) {
+    return res
+      .status(200)
+      .json({ data: user, mensagem: "Usuário encontrado com sucesso!" });
+  }
+};
+
+const deleteAUser = (req, res) => {
+  const userId = req.params.id;
+
+  if (!userId) {
+    return res.status(400).json({ mensagem: "O id é obrigatório" });
+  }
+
+  const user = getUserById(userId);
+
+  if (!user) {
+    return res.status(400).json({ mensagem: "Usuário não encontrado!" });
+  }
+
+  return res
+    .status(200)
+    .json({ data: user, mensagem: "Usuário deletado com sucesso!" });
+};
+
+const editAUser = (req, res) => {
+  const userId = req.params.id;
+
+  if (!userId) {
+    return res.status(400).json({ mensagem: "O id é obrigatório" });
+  }
+
+  const user = getUserById(userId);
+
+  if (!user) {
+    return res.status(400).json({ mensagem: "Usuário não encontrado!" });
+  }
+
+  const editedUser = editUser(userId, { ...user, ...req.body });
+
+  return res
+    .status(200)
+    .json({ data: editedUser, mensagem: "Usuário editado com sucesso!" });
+};
+
+export { listAllUsers, createANewUser, listAUser, deleteAUser, editAUser };
