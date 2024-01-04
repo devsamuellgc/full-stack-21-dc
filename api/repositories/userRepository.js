@@ -1,15 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
-
-const users = [
-  {
-    id: uuidv4(),
-    fullname: "Samuel Carneiro",
-    birthdate: new Date(),
-    email: "email@email.com",
-    phone: "85999999999",
-    cpf: "00000000000",
-  },
-];
+import { users } from "../mock/users.js";
 
 const getAllUsers = () => users;
 
