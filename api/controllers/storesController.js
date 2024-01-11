@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import {
   createStore,
   deletedStore,
+  editStore,
   getAllStores,
   getStoreById,
 } from "../services/storesService.js";
@@ -110,7 +111,23 @@ const createANewStore = (req, res) => {
 };
 
 const editAStore = (req, res) => {
-  
+  const storeId = req.params.id;
+
+  if (!storeId) {
+    return res.status(400).json({ mensagem: "O ID da loja é obrigatório!" });
+  }
+
+  const store = getStoreById(storeId);
+
+  if (!store) {
+    return res.status(400).json({ mensagem: "Loja não foi encontrada!" });
+  }
+
+  const editedStore = editStore(store.id, { ...store, ...req.body });
+
+  return res
+    .status(200)
+    .json({ data: editedStore, mensagem: "Loja editada com sucesso!" });
 };
 
-export { listAllStores, listAStore, deleteAStore, createANewStore };
+export { listAllStores, listAStore, deleteAStore, createANewStore, editAStore };
