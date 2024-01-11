@@ -5,7 +5,7 @@ import {
   getAllStores,
   getStoreById,
 } from "../services/storesService.js";
-import { getUserById } from "../services/usersService.js";
+import { addStoreToAUser, getUserById } from "../services/usersService.js";
 
 const listAllStores = (req, res) => {
   const stores = getAllStores();
@@ -102,12 +102,15 @@ const createANewStore = (req, res) => {
   const createdStore = createStore(newStore);
 
   if (createdStore) {
+    addStoreToAUser(createdStore.userId, createdStore);
     return res
       .status(201)
       .json({ data: createdStore, mensagem: "Loja criada com sucesso!" });
   }
 };
 
-const editAStore = (req, res) => {};
+const editAStore = (req, res) => {
+  
+};
 
 export { listAllStores, listAStore, deleteAStore, createANewStore };

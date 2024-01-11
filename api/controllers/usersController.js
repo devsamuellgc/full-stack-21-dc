@@ -34,6 +34,7 @@ const createANewUser = (req, res) => {
   const user = {
     id,
     ...req.body,
+    stores: [],
   };
 
   if (userById) {
