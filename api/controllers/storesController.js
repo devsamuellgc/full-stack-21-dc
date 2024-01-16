@@ -41,6 +41,8 @@ const listAStore = (req, res) => {
       .status(200)
       .json({ data: store, mensagem: "Loja encontrada com sucesso!" });
   }
+
+  return res.status(400).json({ mensagem: "ID não existe!" });
 };
 
 const deleteAStore = (req, res) => {

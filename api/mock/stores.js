@@ -1,3 +1,5 @@
+import { products } from "./products.js";
+
 export const stores = [
   {
     id: "34408e18-b7b5-4cdf-823a-5ade0e1ca0e5",
@@ -8,6 +10,8 @@ export const stores = [
     email: "emaildaloja@loja.com",
     phone: "85999999999",
     userId: "7385ac56-3786-4d64-88ff-6d6870dfa540",
-    products: [],
+    products: products.filter(
+      (product) => product.storeId === "34408e18-b7b5-4cdf-823a-5ade0e1ca0e5"
+    ),
   },
 ];
