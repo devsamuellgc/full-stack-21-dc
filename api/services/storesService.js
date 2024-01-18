@@ -7,4 +7,16 @@ const deletedStore = (storeId) => storeRepository.deletedStore(storeId);
 const editStore = (storeId, updatedStore) =>
   storeRepository.editStore({ id: storeId, ...updatedStore });
 
-export { getAllStores, getStoreById, createStore, deletedStore, editStore };
+const addProductToAStore = (storeId, product) => {
+  const store = getStoreById(storeId);
+  store.products.push(product);
+};
+
+export {
+  getAllStores,
+  getStoreById,
+  createStore,
+  deletedStore,
+  editStore,
+  addProductToAStore,
+};

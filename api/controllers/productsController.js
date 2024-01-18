@@ -1,8 +1,11 @@
+import { v4 as uuidv4 } from "uuid";
 import {
+  createProduct,
   deletedProduct,
   getAllProducts,
   getProductById,
 } from "../services/productService.js";
+import { addProductToAStore, getStoreById } from "../services/storesService.js";
 
 const listAllProducts = (req, res) => {
   const products = getAllProducts();
@@ -57,9 +60,52 @@ const deleteAProduct = (req, res) => {
     .status(200)
     .json({ data: deleteProduct, mensagem: "Produto deletado com sucesso!" });
 };
-const createAProduct = (req, res) => {};
+
+const createAProduct = (req, res) => {
+  const id = uuidv4();
+  const productById = getProductById(id);
+
+  if (productById) {
+    return res.status(400).json({ mensagem: "Produto já cadastrada!" });
+  }
+
+  const store = getStoreById(req.body.storeId);
+
+  if (!store) {
+    return res.status(400).json({ mensagem: "Loja não encontrada!" });
+  }
+
+  const newProduct = {
+    id,
+    ...req.body,
+  };
+
+  if (!newProduct.name) {
+    return res.status(400).json({ mensagem: "O nome é obrigatório!" });
+  }
+
+  if (!newProduct.price) {
+    return res.status(400).json({ mensagem: "O preço é obrigatório!" });
+  }
+
+  if (!newProduct.quantity) {
+    return res.status(400).json({ mensagem: "A quantidade é obrigatório!" });
+  }
+
+  const productCreated = createProduct(newProduct);
+
+  if (productCreated) {
+    addProductToAStore(productCreated.storeId, productCreated);
+    return res
+      .status(201)
+      .json({ data: productCreated, mensagem: "Produto criado com sucesso!" });
+  }
+};
+
 const editAProduct = (req, res) => {};
+
 const listProductsCost = (req, res) => {};
+
 const listProductCost = (req, res) => {};
 
 export {
