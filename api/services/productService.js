@@ -9,6 +9,18 @@ const deletedProduct = (productId) =>
   productRepository.deletedProduct(productId);
 const editProduct = (productId, updatedProduct) =>
   productRepository.editProduct({ id: productId, ...updatedProduct });
+const getProductCost = (product) => {
+  const cost = Number(product.price) * Number(product.quantity);
+
+  if (cost > 0) {
+    return cost;
+  }
+
+  return 0;
+};
+const getProductsCosts = (products) => {
+  // lógica
+};
 
 export {
   createProduct,
@@ -16,4 +28,5 @@ export {
   editProduct,
   getAllProducts,
   getProductById,
+  getProductCost,
 };

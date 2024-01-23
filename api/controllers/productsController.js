@@ -2,8 +2,10 @@ import { v4 as uuidv4 } from "uuid";
 import {
   createProduct,
   deletedProduct,
+  editProduct,
   getAllProducts,
   getProductById,
+  getProductCost,
 } from "../services/productService.js";
 import { addProductToAStore, getStoreById } from "../services/storesService.js";
 
@@ -102,11 +104,52 @@ const createAProduct = (req, res) => {
   }
 };
 
-const editAProduct = (req, res) => {};
+const editAProduct = (req, res) => {
+  const productId = req.params.id;
 
-const listProductsCost = (req, res) => {};
+  if (!productId) {
+    return res.status(400).json({ mensagem: "O ID do produto é obrigatório!" });
+  }
 
-const listProductCost = (req, res) => {};
+  const product = getProductById(productId);
+
+  if (!product) {
+    return res.status(400).json({ mensagem: "Produto não foi encontrado!" });
+  }
+
+  const editedProduct = editProduct(product.id, { ...product, ...req.body });
+
+  return res
+    .status(200)
+    .json({ data: editedProduct, mensagem: "Produto editado com sucesso!" });
+};
+
+const listProductCost = (req, res) => {
+  const productId = req.params.id;
+
+  if (!productId) {
+    return res.status(400).json({ mensagem: "O id é obrigatório!" });
+  }
+
+  const product = getProductById(productId);
+
+  if (!product) {
+    return res.status(400).json({ mensagem: "Produto não encontrado!" });
+  }
+
+  const productCost = getProductCost(product);
+
+  return res
+    .status(200)
+    .json({ data: productCost, mensagem: "Custo calculado com sucesso!" });
+};
+
+const listProductsCosts = (req, res) => {
+  // getAllProducts
+  // método reduce javascript -> criar um método no service do product
+  // para lidar com a lógica
+  // retornar o valor total do custo de todos os produtos JUNTOS
+};
 
 export {
   createAProduct,
@@ -115,5 +158,5 @@ export {
   listAProduct,
   listAllProducts,
   listProductCost,
-  listProductsCost,
+  listProductsCosts,
 };
