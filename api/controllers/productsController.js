@@ -6,6 +6,7 @@ import {
   getAllProducts,
   getProductById,
   getProductCost,
+  getProductsCosts,
 } from "../services/productService.js";
 import { addProductToAStore, getStoreById } from "../services/storesService.js";
 
@@ -145,10 +146,17 @@ const listProductCost = (req, res) => {
 };
 
 const listProductsCosts = (req, res) => {
-  // getAllProducts
-  // método reduce javascript -> criar um método no service do product
-  // para lidar com a lógica
-  // retornar o valor total do custo de todos os produtos JUNTOS
+  const products = getAllProducts();
+  if (products.length === 0) {
+    return res.status(400).json({ mensagem: "Não há produtos cadastrados" });
+  }
+
+  const productsCosts = getProductsCosts(products);
+
+  return res.status(200).json({
+    data: productsCosts,
+    mensagem: "Custo total de estoque dos produtos",
+  });
 };
 
 export {

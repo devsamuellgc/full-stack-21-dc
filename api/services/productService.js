@@ -19,7 +19,12 @@ const getProductCost = (product) => {
   return 0;
 };
 const getProductsCosts = (products) => {
-  // lógica
+  const productsCosts = products.reduce((previous, current) => {
+    const total = current.price * current.quantity;
+    return previous + total;
+  }, 0);
+
+  return productsCosts;
 };
 
 export {
@@ -29,4 +34,5 @@ export {
   getAllProducts,
   getProductById,
   getProductCost,
+  getProductsCosts,
 };
