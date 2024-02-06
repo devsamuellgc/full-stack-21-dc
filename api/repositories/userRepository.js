@@ -1,17 +1,31 @@
 import { connection } from "../database.js";
-import { users } from "../mock/users.js";
+// import { users } from "../mock/users.js";
 
 const getAllUsers = async () => {
   const [results] = await connection.query("SELECT * FROM `users`");
   return results;
 };
 
-const getUserById = (userId) => users.find((user) => user.id === userId);
+const getUserById = async (userId) => {
+  const [results] = await connection.query(
+    `SELECT * FROM users WHERE id = ${userId}`
+  );
+  return results;
+};
 
-const getUserByEmail = (userEmail) =>
-  users.find((user) => user.email === userEmail);
+const getUserByEmail = async (userEmail) => {
+  const [results] = await connection.query(
+    `SELECT * FROM users WHERE email = "${userEmail}"`
+  );
+  return results;
+};
 
-const getUserByCpf = (userCpf) => users.find((user) => user.cpf === userCpf);
+const getUserByCpf = async (userCpf) => {
+  const [results] = await connection.query(
+    `SELECT * FROM users WHERE cpf = ${userCpf}`
+  );
+  return results;
+};
 
 const createUser = (newUser) => {
   users.push(newUser);
@@ -24,9 +38,11 @@ const editUser = (updatedUser) => {
   return updatedUser;
 };
 
-const deletedUser = (userId) => {
-  const index = users.findIndex((user) => user.id === userId);
-  const deletedUser = users.splice(index, 1);
+const deletedUser = async (userId) => {
+  const deletedUser = await connection.query(
+    `DELETE FROM users WHERE id = ${userId}`
+  );
+  console.log(deletedUser);
   return deletedUser;
 };
 

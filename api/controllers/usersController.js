@@ -18,8 +18,6 @@ const listAllUsers = async (req, res) => {
     });
   }
 
-  console.log(users)
-
   if (users) {
     return res.status(200).json({
       data: users,
@@ -81,14 +79,14 @@ const createANewUser = (req, res) => {
   }
 };
 
-const listAUser = (req, res) => {
+const listAUser = async (req, res) => {
   const userId = req.params.id;
 
   if (!userId) {
     return res.status(400).json({ mensagem: "O id é obrigatório" });
   }
 
-  const user = getUserById(userId);
+  const user = await getUserById(userId);
 
   if (user) {
     return res
@@ -97,20 +95,52 @@ const listAUser = (req, res) => {
   }
 };
 
-const deleteAUser = (req, res) => {
+const listAUserByEmail = async (req, res) => {
+  const userEmail = req.params.email;
+
+  if (!userEmail) {
+    return res.status(400).json({ mensagem: "O e-mail é obrigatório" });
+  }
+
+  const user = await getUserByEmail(userEmail);
+
+  if (user) {
+    return res
+      .status(200)
+      .json({ data: user, mensagem: "Usuário encontrado com sucesso!" });
+  }
+};
+
+const listAUserByCpf = async (req, res) => {
+  const userCpf = req.params.cpf;
+
+  if (!userCpf) {
+    return res.status(400).json({ mensagem: "O CPF é obrigatório" });
+  }
+
+  const user = await getUserByCpf(userCpf);
+
+  if (user) {
+    return res
+      .status(200)
+      .json({ data: user, mensagem: "Usuário encontrado com sucesso!" });
+  }
+};
+
+const deleteAUser = async (req, res) => {
   const userId = req.params.id;
 
   if (!userId) {
     return res.status(400).json({ mensagem: "O id é obrigatório" });
   }
 
-  const user = getUserById(userId);
+  const user = await getUserById(userId);
 
-  if (!user) {
+  if (user.length === 0) {
     return res.status(400).json({ mensagem: "Usuário não encontrado!" });
   }
 
-  const deleteUser = deletedUser(userId);
+  const deleteUser = await deletedUser(userId);
 
   return res
     .status(200)
@@ -137,4 +167,12 @@ const editAUser = (req, res) => {
     .json({ data: editedUser, mensagem: "Usuário editado com sucesso!" });
 };
 
-export { listAllUsers, createANewUser, listAUser, deleteAUser, editAUser };
+export {
+  listAllUsers,
+  createANewUser,
+  listAUser,
+  deleteAUser,
+  editAUser,
+  listAUserByCpf,
+  listAUserByEmail,
+};
