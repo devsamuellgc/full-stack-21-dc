@@ -1,6 +1,6 @@
 import userRepository from "../repositories/userRepository.js";
 
-const getAllUsers = () => userRepository.getAllUsers();
+const getAllUsers = async () => await userRepository.getAllUsers();
 const getUserById = (userId) => userRepository.getUserById(userId);
 const getUserByEmail = (userEmail) => userRepository.getUserByEmail(userEmail);
 const getUserByCpf = (userCpf) => userRepository.getUserByCpf(userCpf);

@@ -9,14 +9,16 @@ import {
 } from "../services/usersService.js";
 import { v4 as uuidv4 } from "uuid";
 
-const listAllUsers = (req, res) => {
-  const users = getAllUsers();
+const listAllUsers = async (req, res) => {
+  const users = await getAllUsers();
 
   if (users.length === 0) {
     return res.status(200).json({
       mensagem: "Não há usuários cadastrados!",
     });
   }
+
+  console.log(users)
 
   if (users) {
     return res.status(200).json({

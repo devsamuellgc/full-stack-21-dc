@@ -1,6 +1,10 @@
+import { connection } from "../database.js";
 import { users } from "../mock/users.js";
 
-const getAllUsers = () => users;
+const getAllUsers = async () => {
+  const [results] = await connection.query("SELECT * FROM `users`");
+  return results;
+};
 
 const getUserById = (userId) => users.find((user) => user.id === userId);
 
