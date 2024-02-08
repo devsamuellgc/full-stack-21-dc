@@ -1,5 +1,4 @@
 import { connection } from "../database.js";
-// import { users } from "../mock/users.js";
 
 const getAllUsers = async () => {
   const [results] = await connection.query("SELECT * FROM `users`");
@@ -22,14 +21,19 @@ const getUserByEmail = async (userEmail) => {
 
 const getUserByCpf = async (userCpf) => {
   const [results] = await connection.query(
-    `SELECT * FROM users WHERE cpf = ${userCpf}`
+    `SELECT * FROM users WHERE cpf = "${userCpf}"`
   );
   return results;
 };
 
-const createUser = (newUser) => {
-  users.push(newUser);
-  return newUser;
+const createUser = async (newUser) => {
+  const columns = Object.keys(newUser);
+  const [results] = await connection.query(
+    `INSERT INTO users (${columns.map(
+      (column) => column
+    )}) VALUES (${columns.map((column) => `'${newUser[column]}'`)})`
+  );
+  return results;
 };
 
 const editUser = (updatedUser) => {

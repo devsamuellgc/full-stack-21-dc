@@ -28,20 +28,10 @@ const listAllUsers = async (req, res) => {
   return res.status(400).json({ mensagem: "Usuários não encontrado" });
 };
 
-const createANewUser = (req, res) => {
-  const id = uuidv4();
-  const userById = getUserById(id);
-  const user = {
-    id,
-    ...req.body,
-    stores: [],
-  };
+const createANewUser = async (req, res) => {
+  const user = req.body;
 
-  if (userById) {
-    return res.status(400).json({ mensagem: "Usuário já foi cadastrado!" });
-  }
-
-  if (!user.fullname) {
+  if (!user.name) {
     return res.status(400).json({ mensagem: "O nome é obrigatório!" });
   }
 
@@ -49,9 +39,9 @@ const createANewUser = (req, res) => {
     return res.status(400).json({ mensagem: "O e-mail é obrigatório!" });
   }
 
-  const userByEmail = getUserByEmail(user.email);
+  const userByEmail = await getUserByEmail(user.email);
 
-  if (userByEmail) {
+  if (userByEmail.length > 0) {
     return res.status(400).json({ mensagem: "Esse e-mail já foi cadastrado!" });
   }
 
@@ -59,17 +49,17 @@ const createANewUser = (req, res) => {
     return res.status(400).json({ mensagem: "O CPF é obrigatório!" });
   }
 
-  const userCpf = getUserByCpf(user.cpf);
-
-  if (userCpf) {
-    return res.status(400).json({ mensagem: "O CPF já está em uso!" });
-  }
-
   if (user.cpf.length !== 11) {
     return res.status(400).json({ mensagem: "CPF inválido!" });
   }
 
-  const newUser = createUser(user);
+  const userCpf = await getUserByCpf(user.cpf);
+
+  if (userCpf.length > 0) {
+    return res.status(400).json({ mensagem: "O CPF já está em uso!" });
+  }
+
+  const newUser = await createUser(user);
 
   if (newUser) {
     return res.status(201).json({
