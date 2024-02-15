@@ -36,10 +36,14 @@ const createUser = async (newUser) => {
   return results;
 };
 
-const editUser = (updatedUser) => {
-  const index = users.findIndex((user) => user.id === updatedUser.id);
-  users[index] = updatedUser;
-  return updatedUser;
+const editUser = async (updatedUser) => {
+  const columns = Object.keys(updatedUser);
+  const [results] = await connection.query(
+    `UPDATE users SET ${columns.map(
+      (column) => `${column} = "${updatedUser[column]}" `
+    )} WHERE id = ${updatedUser.id};`
+  );
+  return results;
 };
 
 const deletedUser = async (userId) => {

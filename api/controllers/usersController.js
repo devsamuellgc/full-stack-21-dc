@@ -7,7 +7,6 @@ import {
   editUser,
   deletedUser,
 } from "../services/usersService.js";
-import { v4 as uuidv4 } from "uuid";
 
 const listAllUsers = async (req, res) => {
   const users = await getAllUsers();
