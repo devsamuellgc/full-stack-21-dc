@@ -8,7 +8,7 @@ import {
   getProductCost,
   getProductsCosts,
 } from "../services/productService.js";
-import { addProductToAStore, getStoreById } from "../services/storesService.js";
+import { getStoreById } from "../services/storesService.js";
 
 const listAllProducts = (req, res) => {
   const products = getAllProducts();
@@ -98,7 +98,6 @@ const createAProduct = (req, res) => {
   const productCreated = createProduct(newProduct);
 
   if (productCreated) {
-    addProductToAStore(productCreated.storeId, productCreated);
     return res
       .status(201)
       .json({ data: productCreated, mensagem: "Produto criado com sucesso!" });

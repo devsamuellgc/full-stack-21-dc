@@ -8,8 +8,8 @@ import {
 } from "../services/storesService.js";
 import { addStoreToAUser, getUserById } from "../services/usersService.js";
 
-const listAllStores = (req, res) => {
-  const stores = getAllStores();
+const listAllStores = async (req, res) => {
+  const stores = await getAllStores();
 
   if (stores.length === 0) {
     return res.status(200).json({
@@ -27,16 +27,16 @@ const listAllStores = (req, res) => {
   return res.status(400).json({ mensagem: "Lojas não encontradas" });
 };
 
-const listAStore = (req, res) => {
+const listAStore = async (req, res) => {
   const storeId = req.params.id;
 
   if (!storeId) {
     return res.status(400).json({ mensagem: "O id é obrigatório" });
   }
 
-  const store = getStoreById(storeId);
+  const store = await getStoreById(storeId);
 
-  if (store) {
+  if (store.length > 0) {
     return res
       .status(200)
       .json({ data: store, mensagem: "Loja encontrada com sucesso!" });
@@ -45,7 +45,7 @@ const listAStore = (req, res) => {
   return res.status(400).json({ mensagem: "ID não existe!" });
 };
 
-const deleteAStore = (req, res) => {
+const deleteAStore = async (req, res) => {
   const storeId = req.params.id;
 
   if (!storeId) {
