@@ -7,7 +7,7 @@ const getAllStores = async () => {
 
 const getStoreById = async (storeId) => {
   const [results] = await connection.query(
-    `SELECT * FROM stores WHERE id = ${storeId}`
+    `SELECT * FROM stores WHERE id = '${storeId}'`
   );
   return results;
 };
