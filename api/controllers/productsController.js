@@ -10,14 +10,13 @@ import {
 } from "../services/productService.js";
 import { getStoreById } from "../services/storesService.js";
 
-const listAllProducts = (req, res) => {
-  const products = getAllProducts();
-
-  if (products.length === 0) {
+const listAllProducts = async (req, res) => {
+  const products = await getAllProducts();
+  if (!products.length) {
     return res.status(200).json({ mensagem: "Não há produto cadastrado!" });
   }
 
-  if (products) {
+  if (!!products.length) {
     return res
       .status(200)
       .json({ data: products, mensagem: "Produtos encontrados com sucesso!" });
@@ -26,16 +25,16 @@ const listAllProducts = (req, res) => {
   return res.status(400).json({ mensagem: "Produtos não encontrados!" });
 };
 
-const listAProduct = (req, res) => {
+const listAProduct = async (req, res) => {
   const productId = req.params.id;
 
   if (!productId) {
     return res.status(400).json({ mensagem: "O id é obrigatório" });
   }
 
-  const product = getProductById(productId);
+  const product = await getProductById(productId);
 
-  if (!product) {
+  if (!product.length) {
     return res.status(400).json({ mensagem: "O id é inexistente!" });
   }
 
@@ -44,44 +43,34 @@ const listAProduct = (req, res) => {
     .json({ data: product, mensagem: "Produto encontrado com sucesso!" });
 };
 
-const deleteAProduct = (req, res) => {
+const deleteAProduct = async (req, res) => {
   const productId = req.params.id;
 
   if (!productId) {
     return res.status(400).json({ mensagem: "O id é obrigatório!" });
   }
 
-  const product = getProductById(productId);
+  const product = await getProductById(productId);
 
-  if (!product) {
+  if (!product.length) {
     return res.status(400).json({ mensagem: "O produto não foi encontrado!" });
   }
 
-  const deleteProduct = deletedProduct(product.id);
+  const deleteProduct = await deletedProduct(product[0].id);
 
   return res
     .status(200)
     .json({ data: deleteProduct, mensagem: "Produto deletado com sucesso!" });
 };
 
-const createAProduct = (req, res) => {
-  const id = uuidv4();
-  const productById = getProductById(id);
+const createAProduct = async (req, res) => {
+  const store = await getStoreById(req.body.storeId);
 
-  if (productById) {
-    return res.status(400).json({ mensagem: "Produto já cadastrada!" });
-  }
-
-  const store = getStoreById(req.body.storeId);
-
-  if (!store) {
+  if (!store.length) {
     return res.status(400).json({ mensagem: "Loja não encontrada!" });
   }
 
-  const newProduct = {
-    id,
-    ...req.body,
-  };
+  const newProduct = req.body;
 
   if (!newProduct.name) {
     return res.status(400).json({ mensagem: "O nome é obrigatório!" });
@@ -95,49 +84,52 @@ const createAProduct = (req, res) => {
     return res.status(400).json({ mensagem: "A quantidade é obrigatório!" });
   }
 
-  const productCreated = createProduct(newProduct);
+  const productCreated = await createProduct(newProduct);
 
-  if (productCreated) {
+  if (productCreated.affectedRows > 0) {
     return res
       .status(201)
       .json({ data: productCreated, mensagem: "Produto criado com sucesso!" });
   }
 };
 
-const editAProduct = (req, res) => {
+const editAProduct = async (req, res) => {
   const productId = req.params.id;
 
   if (!productId) {
     return res.status(400).json({ mensagem: "O ID do produto é obrigatório!" });
   }
 
-  const product = getProductById(productId);
+  const product = await getProductById(productId);
 
-  if (!product) {
+  if (!product.length) {
     return res.status(400).json({ mensagem: "Produto não foi encontrado!" });
   }
 
-  const editedProduct = editProduct(product.id, { ...product, ...req.body });
+  const editedProduct = await editProduct(product[0].id, {
+    ...product[0],
+    ...req.body,
+  });
 
   return res
     .status(200)
     .json({ data: editedProduct, mensagem: "Produto editado com sucesso!" });
 };
 
-const listProductCost = (req, res) => {
+const listProductCost = async (req, res) => {
   const productId = req.params.id;
 
   if (!productId) {
     return res.status(400).json({ mensagem: "O id é obrigatório!" });
   }
 
-  const product = getProductById(productId);
+  const product = await getProductById(productId);
 
-  if (!product) {
+  if (!product.length) {
     return res.status(400).json({ mensagem: "Produto não encontrado!" });
   }
 
-  const productCost = getProductCost(product);
+  const productCost = await getProductCost(product[0]);
 
   return res
     .status(200)

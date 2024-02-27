@@ -1,4 +1,4 @@
-import { connection } from "../database";
+import { connection } from "../database.js";
 
 const getAllProducts = async () => {
   const [results] = await connection.query("SELECT * FROM products");
