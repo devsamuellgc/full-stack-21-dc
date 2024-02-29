@@ -1,7 +1,9 @@
 import { connection } from "../database.js";
 
-const getAllProducts = async () => {
-  const [results] = await connection.query("SELECT * FROM products");
+const getAllProducts = async (storeId) => {
+  const [results] = await connection.query(
+    `SELECT * FROM products WHERE storeId = ${storeId}`
+  );
   return results;
 };
 

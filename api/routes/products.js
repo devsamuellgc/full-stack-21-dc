@@ -11,8 +11,8 @@ import {
 
 const productsRouter = Router();
 
-productsRouter.get("/products", listAllProducts);
-productsRouter.get("/products/:id", listAProduct);
+productsRouter.get("/products/:storeId", listAllProducts);
+productsRouter.get("/product/:id", listAProduct);
 productsRouter.get("/product-cost/:id", listProductCost);
 productsRouter.get("/products-costs", listProductsCosts);
 productsRouter.delete("/products/:id", deleteAProduct);

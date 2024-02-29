@@ -11,7 +11,14 @@ import {
 import { getStoreById } from "../services/storesService.js";
 
 const listAllProducts = async (req, res) => {
-  const products = await getAllProducts();
+  const storeId = req.params.storeId;
+
+  if (!storeId) {
+    return res.status(400).json({ mensagem: "O id é obrigatório" });
+  }
+
+  const products = await getAllProducts(storeId);
+
   if (!products.length) {
     return res.status(200).json({ mensagem: "Não há produto cadastrado!" });
   }
