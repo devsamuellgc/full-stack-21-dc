@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import {
   createProduct,
   deletedProduct,
@@ -143,13 +142,20 @@ const listProductCost = async (req, res) => {
     .json({ data: productCost, mensagem: "Custo calculado com sucesso!" });
 };
 
-const listProductsCosts = (req, res) => {
-  const products = getAllProducts();
-  if (products.length === 0) {
+const listProductsCosts = async (req, res) => {
+  const storeId = req.params.storeId;
+
+  if (!storeId) {
+    return res.status(400).json({ mensagem: "O id é obrigatório!" });
+  }
+
+  const products = await getAllProducts(storeId);
+
+  if (!products.length) {
     return res.status(400).json({ mensagem: "Não há produtos cadastrados" });
   }
 
-  const productsCosts = getProductsCosts(products);
+  const productsCosts = await getProductsCosts(products);
 
   return res.status(200).json({
     data: productsCosts,
