@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export function UserForm() {
+export function UserForm({ state, handleChange, handleSubmit }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -33,11 +33,19 @@ export function UserForm() {
             <Label htmlFor="name" className="text-right">
               Nome
             </Label>
-            <Input id="name" className="col-span-3" />
+            <Input
+              data-cy="input-name"
+              onChange={handleChange}
+              value={state}
+              id="name"
+              className="col-span-3"
+            />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Confirmar</Button>
+          <Button data-cy="btn-submit" onClick={handleSubmit} type="submit">
+            Confirmar
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
