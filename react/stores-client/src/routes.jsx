@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { LoginPage } from "./pages/Login";
+import { ForgotPassword } from "./pages/ForgotPassword";
 
 export const routes = createBrowserRouter([
   {
@@ -9,5 +10,9 @@ export const routes = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/esqueci-a-senha",
+    element: <ForgotPassword />,
   },
 ]);
