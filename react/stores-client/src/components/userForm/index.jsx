@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Link } from "react-router-dom";
 
 export function UserForm({ state, handleChange, handleSubmit }) {
   return (
@@ -43,9 +44,14 @@ export function UserForm({ state, handleChange, handleSubmit }) {
           </div>
         </div>
         <DialogFooter>
-          <Button data-cy="btn-submit" onClick={handleSubmit} type="submit">
-            Confirmar
-          </Button>
+          <div className="flex items-center justify-end gap-5">
+            <Link data-cy="link-to-forgot-password-page" to="/esqueci-a-senha">
+              Esqueci a senha
+            </Link>
+            <Button data-cy="btn-submit" onClick={handleSubmit} type="submit">
+              Confirmar
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
