@@ -89,7 +89,7 @@ router.post("/loja", validarAutenticacao, validarPermissaoAdmin, (req, res) => {
   }
 
   if (!req.body.nome) {
-    return res.status(400).json({ mensagem: "Nome da loja é obrigatório!" });
+    return res.status(400).json({ mensagem: "O nome da loja é obrigatório!" });
   }
 
   if (typeof req.body.faturamento === "string") {
@@ -109,7 +109,7 @@ router.post("/loja", validarAutenticacao, validarPermissaoAdmin, (req, res) => {
 
   lojas.push(lojaPropriedades);
 
-  return res.status(201).json(lojas);
+  return res.status(201).json(lojaPropriedades);
 });
 
 router.delete(
