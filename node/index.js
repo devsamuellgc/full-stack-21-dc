@@ -4,7 +4,7 @@ import storesRoutes from "./routes/stores.js";
 import productsRoutes from "./routes/products.js";
 import receivablesRoutes from "./routes/receivables.js";
 
-const app = express();
+export const app = express();
 const port = 3001;
 
 app.use(express.json());

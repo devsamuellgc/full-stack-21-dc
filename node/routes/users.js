@@ -2,7 +2,7 @@ import express from "express";
 
 const router = express.Router();
 
-const users = [
+export const users = [
   {
     name: "Samuel",
     lastName: "Lopes",
@@ -17,6 +17,11 @@ const users = [
     name: "Samuel",
     lastName: "Lopes",
     id: "3",
+  },
+  {
+    name: "Samuel",
+    lastName: "Lopes",
+    id: "4",
   },
 ];
 
