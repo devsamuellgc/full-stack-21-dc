@@ -8,6 +8,9 @@ const config = {
   port: 3308,
 };
 
-const connection = await createConnection(config);
+const connection = async () => {
+  const conn = await createConnection(config);
+  return conn;
+};
 
 export { connection };

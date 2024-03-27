@@ -4,7 +4,7 @@ import usersRoutes from "./routes/users.js";
 import storesRouter from "./routes/stores.js";
 import productsRouter from "./routes/products.js";
 
-const app = express();
+export const app = express();
 
 const port = 3000;
 
@@ -14,6 +14,4 @@ app.use(usersRoutes);
 app.use(storesRouter);
 app.use(productsRouter);
 
-app.listen(port, () => {
-  console.log(`Servidor rodando na porta: ${port}`);
-});
+app.listen(port, () => {});

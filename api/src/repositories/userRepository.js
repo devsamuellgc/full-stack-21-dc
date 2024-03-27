@@ -1,12 +1,13 @@
 import { connection } from "../database.js";
 
 const getAllUsers = async () => {
-  const [results] = await connection.query("SELECT * FROM `users`");
+  const conn = await connection();
+  const [results] = await conn.query("SELECT * FROM `users`");
   return results;
 };
 
 const getUserById = async (userId) => {
-  const [results] = await connection.query(
+  const [results] = await connection().query(
     `SELECT * FROM users WHERE id = ${userId}`
   );
   return results;

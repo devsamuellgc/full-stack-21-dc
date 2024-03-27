@@ -1,14 +1,14 @@
 import { connection } from "../database.js";
 
 const getAllProducts = async (storeId) => {
-  const [results] = await connection.query(
+  const [results] = await connection().query(
     `SELECT * FROM products WHERE storeId = ${storeId}`
   );
   return results;
 };
 
 const getProductById = async (productId) => {
-  const [results] = await connection.query(
+  const [results] = await connection().query(
     `SELECT * FROM products WHERE id = '${productId}'`
   );
   return results;
