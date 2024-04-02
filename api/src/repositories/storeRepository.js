@@ -1,7 +1,8 @@
 import { connection } from "../database.js";
 
 const getAllStores = async () => {
-  const [results] = await connection().query("SELECT * FROM stores");
+  const conn = await connection();
+  const [results] = await conn.query("SELECT * FROM stores");
   return results;
 };
 
